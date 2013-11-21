@@ -6,7 +6,7 @@
  * @copyright Copyright (c) 2013 ZF-Hipsters
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache Licence, Version 2.0
  */
-namespace Users\View\Helper;
+namespace Authorize\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
 use Zend\Authentication\AuthenticationService;

@@ -9,29 +9,32 @@
 namespace Authorize\Entity;
 
 class User {
-    protected $userId;
+    protected $id;
     protected $firstName;
     protected $lastName;
     protected $email;
     protected $password;
-    protected $active = 1;
+    protected $role = 'user';
+    protected $active = 0;
+    protected $resetToken;
     protected $created;
     protected $modified;
 
     /**
-     * @param mixed $userId
+     * @param mixed $id
      */
-    public function setUserId($userId)
+    public function setId($id)
     {
-        $this->userId = $userId;
+        $this->id = $id;
+        return $this;
     }
 
     /**
      * @return mixed
      */
-    public function getUserId()
+    public function getId()
     {
-        return $this->userId;
+        return $this->id;
     }
 
     /**
@@ -40,6 +43,7 @@ class User {
     public function setFirstName($firstName)
     {
         $this->firstName = $firstName;
+        return $this;
     }
 
     /**
@@ -56,6 +60,7 @@ class User {
     public function setLastName($lastName)
     {
         $this->lastName = $lastName;
+        return $this;
     }
 
     /**
@@ -72,6 +77,7 @@ class User {
     public function setEmail($email)
     {
         $this->email = $email;
+        return $this;
     }
 
     /**
@@ -83,11 +89,29 @@ class User {
     }
 
     /**
+     * @param mixed $role
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
      * @param mixed $password
      */
     public function setPassword($password)
     {
         $this->password = $password;
+        return $this;
     }
 
     /**
@@ -104,6 +128,7 @@ class User {
     public function setActive($active)
     {
         $this->active = $active;
+        return $this;
     }
 
     /**
@@ -115,11 +140,29 @@ class User {
     }
 
     /**
+     * @param mixed $resetToken
+     */
+    public function setResetToken($resetToken)
+    {
+        $this->resetToken = $resetToken;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getResetToken()
+    {
+        return $this->resetToken;
+    }
+
+    /**
      * @param mixed $created
      */
     public function setCreated($created)
     {
         $this->created = $created;
+        return $this;
     }
 
     /**
@@ -136,6 +179,7 @@ class User {
     public function setModified($modified)
     {
         $this->modified = $modified;
+        return $this;
     }
 
     /**

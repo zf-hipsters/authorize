@@ -9,9 +9,9 @@
 namespace Authorize\Form;
 
 use ZfcBase\Form\ProvidesEventsForm;
-use Authorize\Form\Validation\Login as InputFilter;
+use Authorize\Form\Validation\ResetPassword as InputFilter;
 
-class Login extends ProvidesEventsForm
+class ResetPassword extends ProvidesEventsForm
 {
     public function __construct($name = null)
     {
@@ -20,21 +20,7 @@ class Login extends ProvidesEventsForm
         $this->setInputFilter(new InputFilter());
 
         $this->add(array(
-            'name' => 'identity',
-            'options' => array(
-                'label' => 'Email Address:',
-            ),
-            'attributes' => array(
-                'type' => 'text',
-                'placeholder' => 'Email',
-            ),
-        ));
-
-        $this->add(array(
             'name' => 'credential',
-            'options' => array(
-                'label' => 'Password',
-            ),
             'attributes' => array(
                 'type' => 'password',
                 'placeholder' => 'Password',
@@ -42,13 +28,10 @@ class Login extends ProvidesEventsForm
         ));
 
         $this->add(array(
-            'name' => 'remember_me',
-            'options' => array(
-                'label' => 'Remember Me?',
-            ),
-            'type' => 'checkbox',
+            'name' => 'confirm',
             'attributes' => array(
-                'value' => 'remember_me'
+                'type' => 'password',
+                'placeholder' => 'Confirm Password',
             ),
         ));
 
@@ -57,14 +40,6 @@ class Login extends ProvidesEventsForm
             'attributes' => array(
                 'type' => 'submit',
                 'value' => 'Login'
-            ),
-        ));
-
-        $this->add(array(
-            'name' => 'btnRegister',
-            'attributes' => array(
-                'type' => 'register',
-                'value' => 'Register'
             ),
         ));
 

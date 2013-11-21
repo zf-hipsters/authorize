@@ -7,6 +7,8 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache Licence, Version 2.0
  */
 namespace Authorize\Mapper;
+use Zend\Db\Sql\Select;
+use Zend\Db\TableGateway\TableGateway;
 
 /**
  * Class User
@@ -17,6 +19,30 @@ class User
     protected $hydrator = null;
     protected $entity = null;
     protected $tableGateway = null;
+
+    public function register($postVars)
+    {
+        $entity = $this->getEntity();
+        $this->getHydrator()->hydrate($postVars, $entity);
+
+        $entity->setCreated(date('Y-m-d H:i:s'));
+        $insert = $this->getHydrator()->extract($entity);
+
+        unset($insert['user_id']);
+
+        $this->getTableGateway()->insert($insert);
+
+        return $this->findByEmail($postVars['email']);
+    }
+
+    public function updateProfile($postvars, $id)
+    {
+        if (isset($postvars['id'])) {
+            unset($postvars['id']);
+        }
+
+        $this->getTableGateway()->update($postvars, array('id'=>$id));
+    }
 
     /**
      * Find user by email address
@@ -38,8 +64,38 @@ class User
         return $results->current();
     }
 
+    public function findByToken($token)
+    {
+
+        $results = $this->getTableGateway()->select(function(Select $select) use ($token) {
+            $select->where->like('reset_token', $token . '|%');
+        });
+
+        if (!empty($results)) {
+            return $results->current();
+        }
+
+        return false;
+    }
+
+    public function setToken($token, $id)
+    {
+        $this->getTableGateway()->update(array('reset_token'=>$token), array('id'=>$id));
+    }
+
+    public function activate($id)
+    {
+        $this->getTableGateway()->update(array('active'=>1), array('id'=>$id));
+    }
+
+    public function setPassword($password, $id)
+    {
+        $this->getTableGateway()->update(array('password'=>$password), array('id'=>$id));
+    }
+
     /**
      * @param null $tableGateway
+     * @return TableGateway
      */
     public function setTableGateway($tableGateway)
     {
@@ -47,7 +103,7 @@ class User
     }
 
     /**
-     * @return null
+     * @return \Zend\Db\TableGateway\TableGateway
      */
     public function getTableGateway()
     {

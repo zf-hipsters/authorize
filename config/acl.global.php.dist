@@ -1,0 +1,40 @@
+<?php
+/**
+ * ZfcRbac Configuration
+ *
+ * If you have a ./config/autoload/ directory set up for your project, you can
+ * drop this config file in it and change the values as you wish.
+ */
+$settings = array(
+    'template' => 'error/403',
+    'enableLazyProviders' => true,
+    'firewallRoute' => true,
+    'firewallController' => false,
+
+    'firewalls' => array(
+        'ZfcRbac\Firewall\Route' => array(
+            array('route' => 'authorize', 'roles' => 'guest'),
+            array('route' => 'home', 'roles' => 'user'),
+        ),
+    ),
+
+    'providers' => array(
+        'ZfcRbac\Provider\Generic\Role\InMemory' => array(
+            'roles' => array(
+                'administrator',
+                'user' => array('administrator'),
+                'guest' => array('administrator', 'user'),
+            ),
+        ),
+    ),
+
+    // Do not edit this
+    'identity_provider' => 'Authorize\Service\Factory\DefaultRole',
+);
+
+/**
+ * You do not need to edit below this line
+ */
+return array(
+    'zfcrbac' => $settings,
+);

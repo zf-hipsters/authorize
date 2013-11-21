@@ -29,6 +29,10 @@ class Authentication extends ServiceLocatorAware
         $userObject = $this->getMapper()->findByEmail($postData['identity']);
 
         if ($userObject) {
+            if ( $userObject->getActive() == 0 ) {
+                return 'inactive';
+            }
+
             if ($this->getAuthAdapter($identity, $credential, $userObject)->authenticate()) {
                 if ($postData['remember_me'] == 1) {
                     $storage = $this->getServiceLocator()->get('Authorize\Authentication\Storage');
@@ -58,13 +62,11 @@ class Authentication extends ServiceLocatorAware
     public function getAuthAdapter($identity = null, $credential = null, $userObject = null)
     {
         $authAdapter = $this->getServiceLocator()->get('Authorize\Authentication\Adapter');
-        $storage = $this->getServiceLocator()->get('Authorize\Authentication\Storage');
 
         $authAdapter
             ->setIdentity($identity)
             ->setCredential($credential)
-            ->setUserObject($userObject)
-            ->setStorage($storage);
+            ->setUserObject($userObject);
 
         return $authAdapter;
     }

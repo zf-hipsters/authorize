@@ -18,5 +18,6 @@ class CurrentUser extends AbstractPlugin
     {
         $authService = $this->getController()->getServiceLocator()->get('Authorize\Authentication\Adapter');
         return $authService->userIdentity();
+
     }
 }

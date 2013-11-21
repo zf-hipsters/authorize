@@ -8,16 +8,14 @@
  */
 namespace Authorize\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
+use Authorize\Controller\ControllerAbstract;
 use Zend\View\Model\ViewModel;
-
-use Authorize\Form\Validation\Login as InputFilter;
 
 /**
  * Class Authentication
  * @package Authorize\Controller
  */
-class Authentication extends AbstractActionController
+class Authentication extends ControllerAbstract
 {
     /**
      * Login Action
@@ -34,7 +32,10 @@ class Authentication extends AbstractActionController
         }
 
         $returnVars = array(
-            'form' => $form
+            'form' => $form,
+            'allowRegister' => $this->checkPermission('allowRegister', false),
+            'allowForgot' => $this->checkPermission('allowForgotPassword', false),
+            'allowRememberMe' => $this->checkPermission('allowRememberMe', false),
         );
 
         return new ViewModel($returnVars);
@@ -61,7 +62,7 @@ class Authentication extends AbstractActionController
         $request = $this->getRequest();
 
         $form = $this->getServiceLocator()->get('Authorize\Form\Login');
-        $form->setInputFilter(new InputFilter);
+        $redirects = $this->getConfig('redirects');
 
         if ($request->isPost()) {
             $postData = $request->getPost();
@@ -69,14 +70,19 @@ class Authentication extends AbstractActionController
 
             if ($form->isValid()) {
                 $authService = $this->getServiceLocator()->get('Authorize\Service\Authentication');
-                if ($authService->authenticate($postData)) {
-                    $this->fm('You have been logged in.');
+                $authResponse = $authService->authenticate($postData);
+
+                if ($authResponse === true) {
+                    $this->fm( $this->translate('You have been logged in.') );
+                    return $this->redirect()->toRoute($redirects['login_success']);
+                } elseif ($authResponse === 'inactive') {
+                    $this->fm( $this->translate('Your account has not been activated. Please check your email for activation instructions.'), 'error');
                     return $this->redirect()->toRoute('authorize/login');
                 }
             }
         }
 
-        $this->fm('Invalid username and/or password. Please try again.', 'error');
+        $this->fm( $this->translate('Invalid username and/or password. Please try again.'), 'error');
         return $this->redirect()->toRoute('authorize/login');
     }
 }

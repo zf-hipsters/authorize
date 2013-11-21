@@ -8,12 +8,13 @@
  */
 namespace Authorize\Authentication;
 
+use Authorize\Service\ServiceLocatorAware;
 use Zend\Authentication\Adapter\AdapterInterface;
 use Zend\Authentication\Result as AuthenticationResult;
 use Zend\Crypt\Password\Bcrypt;
 use Zend\Session\Container as SessionContainer;
 
-class Adapter implements AdapterInterface
+class Adapter extends ServiceLocatorAware implements AdapterInterface
 {
     protected $identity;
     protected $credential;
@@ -41,6 +42,13 @@ class Adapter implements AdapterInterface
             return false;
         }
 
+        $this->updateIdentity($userObject);
+
+        return $this->getAuthResult(AuthenticationResult::SUCCESS, $userObject->getEmail());
+    }
+
+    public function updateIdentity($userObject)
+    {
         // regen the id
         $session = new SessionContainer($this->getStorage()->getNameSpace());
         $session->getManager()->regenerateId();
@@ -48,8 +56,6 @@ class Adapter implements AdapterInterface
         $storage = $this->getStorage()->read();
         $storage['identity'] = $userObject;
         $this->getStorage()->write($storage);
-
-        return $this->getAuthResult(AuthenticationResult::SUCCESS, $userObject->getEmail());
     }
 
     /**
@@ -60,6 +66,7 @@ class Adapter implements AdapterInterface
     {
         $session = new SessionContainer($this->getStorage()->getNameSpace());
         $session->getManager()->destroy();
+        $this->getStorage()->forgetMe();
 
         $storage = $this->getStorage()->read();
 
@@ -68,8 +75,16 @@ class Adapter implements AdapterInterface
         }
     }
 
+    /**
+     * @var \Zend\Authentication\Storage $storage
+     * @return bool
+     */
     public function userIdentity()
     {
+        if ($this->getStorage()->isEmpty()) {
+            return false;
+        }
+
         $storage = $this->getStorage()->read();
 
         if ($storage['identity']) {
@@ -141,20 +156,14 @@ class Adapter implements AdapterInterface
     }
 
     /**
-     * @param mixed $storage
-     */
-    public function setStorage($storage)
-    {
-        $this->storage = $storage;
-
-        return $this;
-    }
-
-    /**
      * @return mixed
      */
     public function getStorage()
     {
+        if (is_null($this->storage)) {
+            $this->storage = $this->getServiceLocator()->get('Authorize\Authentication\Storage');
+        }
+
         return $this->storage;
     }
 

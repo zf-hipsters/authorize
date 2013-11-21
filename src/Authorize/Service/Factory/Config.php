@@ -11,26 +11,11 @@ namespace Authorize\Service\Factory;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class Form implements FactoryInterface
+class Config implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        return $this;
-    }
-
-    public function get($namespace, $form)
-    {
-
-        $formNamespace = sprintf('%s\%s', $namespace, $form);
-        $filterNamespace = sprintf('%s\Validation\%s', $namespace, $form);
-
-        $form = new $formNamespace;
-
-        if (class_exists($filterNamespace)) {
-            $form->setInputFilter(new $filterNamespace);
-        }
-
-        return $form;
-
+        $config = $serviceLocator->get('Config');
+        return $config['zf-hipsters']['authorize'];
     }
 }

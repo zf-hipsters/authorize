@@ -1,0 +1,43 @@
+<?=$this->fm()?>
+
+<?php
+$form = $this->form;
+$form->prepare();
+$form->setAttribute('action', $this->url('authorize/register'));
+$form->setAttribute('method', 'post');
+$form->setAttribute('role', 'form');
+?>
+
+<div class="container">
+    <div class="row">
+        <h2>Register</h2>
+        <?=$this->form()->openTag($form)?>
+        <fieldset>
+            <div class="form-group<?php if ($this->formElementErrors($form->get('first_name'))):?> has-error<?php endif?>">
+                <?=$this->formRow($form->get('first_name')->setAttribute('class', 'form-control col-xs-4'))?>
+            </div>
+
+            <div class="form-group<?php if ($this->formElementErrors($form->get('last_name'))):?> has-error<?php endif?>">
+                <?=$this->formRow($form->get('last_name')->setAttribute('class', 'form-control col-xs-4'))?>
+            </div>
+
+            <div class="form-group<?php if ($this->formElementErrors($form->get('email'))):?> has-error<?php endif?>">
+                <?=$this->formRow($form->get('email')->setAttribute('class', 'form-control col-xs-4'))?>
+            </div>
+
+            <div class="form-group<?php if ($this->formElementErrors($form->get('password'))):?> has-error<?php endif?>">
+                <?=$this->formRow($form->get('password')->setAttribute('class', 'form-control'))?>
+                <p class="help-block">Note: Password must be 6 character long</p>
+            </div>
+
+            <div class="form-group<?php if ($this->formElementErrors($form->get('password'))):?> has-error<?php endif?>">
+                <?=$this->formRow($form->get('confirm')->setAttribute('class', 'form-control'))?>
+            </div>
+
+            <?=$this->formInput(
+                $form->get('btnSubmit')->setAttribute('class', 'btn btn-lg btn-success')
+            )?>
+        </fieldset>
+        <?=$this->form()->closeTag()?>
+    </div>
+</div>

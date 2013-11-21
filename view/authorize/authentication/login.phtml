@@ -13,7 +13,7 @@ $form->setAttribute('role', 'form');
         <div class="col-md-4 col-md-offset-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Please sign in</h3>
+                    <h3 class="panel-title"><?=$this->translate('Please sign in')?></h3>
                 </div>
                 <div class="panel-body">
                     <?=$this->form()->openTag($form)?>
@@ -24,15 +24,28 @@ $form->setAttribute('role', 'form');
                             <div class="form-group">
                                 <?=$this->formInput($form->get('credential')->setAttribute('class', 'form-control'))?>
                             </div>
-                            <a href="<?=$this->url('authorize/forgot-password')?>" class="pull-right">Forgot Password?</a>
+
+                            <?php if ($allowForgot):?>
+                            <a href="<?=$this->url('authorize/forgot-password')?>" class="pull-right">
+                                <?=$this->translate('Forgot Password?')?>
+                            </a>
+                            <?php endif;?>
+
+                            <?php if ($allowRememberMe):?>
                             <div class="checkbox">
                                 <label>
-                                    <?=$this->formCheckbox($form->get('remember_me'))?>Remember Me
+                                    <?=$this->formCheckbox($form->get('remember_me'))?><?=$this->translate('Remember Me')?>
                                 </label>
                             </div>
+                            <?php endif;?>
+
                             <?=$this->formInput(
                                 $form->get('btnSubmit')->setAttribute('class', 'btn btn-lg btn-success btn-block')
                             )?>
+
+                            <?php if ($allowRegister):?>
+                            <a href="<?=$this->url('authorize/register')?>" class="btn btn-md btn-default btn-block">Register</a>
+                            <?php endif;?>
                         </fieldset>
                     <?=$this->form()->closeTag()?>
                 </div>

@@ -32,4 +32,5 @@ class TableGateway implements FactoryInterface
         return $tableGateway = new ZendTableGateway($moduleConfig['user_table'], $dbAdapter, null, $resultSet);
 
     }
+
 }

@@ -1,0 +1,18 @@
+<?php
+return array(
+    'mail' => array(
+        'from' => '',
+        'transport' => array(
+            'default' => 'smtp', // Change to sendmail for basic php mail
+            'options' => array(
+                'host' => 'smtp.gmail.com', // Eg smtp.gmail.com
+                'connection_class' => 'plain',
+                'connection_config' => array(
+                    'username' => '',
+                    'password' => '',
+                    'ssl' => 'tls'
+                ),
+            ),
+        ),
+    )
+);

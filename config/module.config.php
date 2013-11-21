@@ -4,28 +4,121 @@ return array(
     'zf-hipsters' => array(
         'authorize' => array(
             'user_table' => 'users',
+            'permissions' => array(
+                'allowRegister' => true,
+                'requireActivation' => true,
+                'allowProfileUpdate' => true,
+                'allowForgotPassword' => true,
+                'allowRememberMe' => true,
+                'enableAcl' => true,
+                'redirectOn403' => true,
+            ),
             'redirects' => array(
                 'login_success' => 'home',
-                'login_fail' => 'user/login',
-            )
+                'logout' => 'authorize/login'
+            ),
+            'salt' => 'scDsejlSMYqqpXltYIvKtVHFMhASJutxecLmpolI',
         ),
     ),
-    'view_helpers' => array(
-        'invokables' => array(
-            'currentUser' => 'Authorize\View\Helper\CurrentUser',
-        )
-    ),
-    'controller_plugins' => array(
-        'invokables' => array(
-            'currentUser' => 'Authorize\Controller\Plugin\CurrentUser',
-        )
+    'router' => array(
+        'routes' => array(
+            'authorize' => array(
+                'type' => 'Literal',
+                'priority' => 1000,
+                'options' => array(
+                    'route' => '/user',
+                    'defaults' => array(
+                        'controller' => 'Authorize\Controller\Authentication',
+                        'action'     => 'login',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'login' => array(
+                        'type' => 'Literal',
+                        'options' => array(
+                            'route' => '/login',
+                            'defaults' => array(
+                                'action'     => 'login',
+                            ),
+                        ),
+                    ),
+                    'logout' => array(
+                        'type' => 'Literal',
+                        'options' => array(
+                            'route' => '/logout',
+                            'defaults' => array(
+                                'action'     => 'logout',
+                            ),
+                        ),
+                    ),
+                    'authenticate' => array(
+                        'type' => 'Literal',
+                        'options' => array(
+                            'route' => '/authenticate',
+                            'defaults' => array(
+                                'action'     => 'authenticate',
+                            ),
+                        ),
+                    ),
+                    'register' => array(
+                        'type' => 'Literal',
+                        'options' => array(
+                            'route' => '/register',
+                            'defaults' => array(
+                                'controller' => 'Authorize\Controller\Account',
+                                'action'     => 'register',
+                            ),
+                        ),
+                    ),
+                    'profile' => array(
+                        'type' => 'Literal',
+                        'options' => array(
+                            'route' => '/profile',
+                            'defaults' => array(
+                                'controller' => 'Authorize\Controller\Account',
+                                'action'     => 'profile',
+                            ),
+                        ),
+                    ),
+                    'activate' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/activate[/:email[/:token]]',
+                            'constraints' => array(
+                                'token' => '[0-9a-fA-F]*',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'Authorize\Controller\Account',
+                                'action'     => 'activate',
+                            ),
+                        ),
+                    ),
+                    'forgot-password' => array(
+                        'type' => 'Literal',
+                        'options' => array(
+                            'route' => '/forgot-password',
+                            'defaults' => array(
+                                'controller' => 'Authorize\Controller\Account',
+                                'action'     => 'forgot-password',
+                            ),
+                        ),
+                    ),
+                    'reset-password' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/reset-password[/:token]',
+                            'defaults' => array(
+                                'controller' => 'Authorize\Controller\Account',
+                                'action'     => 'reset-password',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
     ),
     'view_manager' => array(
-        'not_found_template'       => 'error/404',
-        'template_map' => array(
-            'layout/login-layout'           => __DIR__ . '/../view/layout/layout.phtml',
-            'error/403'               => __DIR__ . '/../view/error/404.phtml',
-        ),
         'template_path_stack' => array(
             __DIR__ . '/../view',
         ),

@@ -1,0 +1,32 @@
+{
+    "name": "zf-hipsters/authorize",
+    "description": "A complete login and authentication system with forgot password, registration and user profile. Ridiculously simple!",
+    "type": "library",
+    "keywords": [
+        "zf2 authentication register user profile"
+    ],
+    "homepage": "https://github.com/zf-hipsters/authorize",
+    "authors": [
+        {
+            "name": "Aaron Weatherall",
+            "email": "aaron@weatherall.net.au",
+            "homepage": "http://www.aaronweatherall.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "zendframework/zendframework": ">2.2.0rc1",
+        "zf-hipsters/abstract-factory": ">=0.9",
+        "zf-hipsters/bootstrap-flash-messenger": ">=1.0.2",
+        "zf-commons/zfc-base": "dev-master",
+        "zf-commons/zfc-rbac": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "AssetManager": "src/"
+        },
+        "classmap": [
+            "./Module.php"
+        ]
+    }
+}

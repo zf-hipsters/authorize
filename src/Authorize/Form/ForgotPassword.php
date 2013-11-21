@@ -9,9 +9,9 @@
 namespace Authorize\Form;
 
 use ZfcBase\Form\ProvidesEventsForm;
-use Authorize\Form\Validation\Login as InputFilter;
+use Authorize\Form\Validation\ForgotPassword as InputFilter;
 
-class Login extends ProvidesEventsForm
+class ForgotPassword extends ProvidesEventsForm
 {
     public function __construct($name = null)
     {
@@ -31,40 +31,10 @@ class Login extends ProvidesEventsForm
         ));
 
         $this->add(array(
-            'name' => 'credential',
-            'options' => array(
-                'label' => 'Password',
-            ),
-            'attributes' => array(
-                'type' => 'password',
-                'placeholder' => 'Password',
-            ),
-        ));
-
-        $this->add(array(
-            'name' => 'remember_me',
-            'options' => array(
-                'label' => 'Remember Me?',
-            ),
-            'type' => 'checkbox',
-            'attributes' => array(
-                'value' => 'remember_me'
-            ),
-        ));
-
-        $this->add(array(
             'name' => 'btnSubmit',
             'attributes' => array(
                 'type' => 'submit',
-                'value' => 'Login'
-            ),
-        ));
-
-        $this->add(array(
-            'name' => 'btnRegister',
-            'attributes' => array(
-                'type' => 'register',
-                'value' => 'Register'
+                'value' => 'Reset Password'
             ),
         ));
 
