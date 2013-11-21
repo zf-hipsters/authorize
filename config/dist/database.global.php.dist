@@ -1,0 +1,27 @@
+<?php
+/**
+ * ZF-Hipsters Authorize (https://github.com/zf-hipsters)
+ *
+ * @link https://github.com/zf-hipsters/authorize for the canonical repository
+ * @copyright Copyright (c) 2013 ZF-Hipsters
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache Licence, Version 2.0
+ */
+
+
+return array (
+    'db' => array (
+        'driver' => 'Mysqli',
+        'database' => '',
+        'username' => '',
+        'password' => '',
+        'hostname' => '',
+        'options' => array (
+            'buffer_results' => true,
+        ),
+    ),
+    'service_manager' => array (
+        'factories' => array (
+            'Zend\\Db\\Adapter\\Adapter' => 'Zend\\Db\\Adapter\\AdapterServiceFactory',
+        ),
+    ),
+);

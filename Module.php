@@ -21,15 +21,18 @@ class Module
 
         $config = $sm->get('Config');
 
-        if (!isset($config['mail'])) {
-            throw new \Exception('Mail configuration not found. Please copy email.global.php.dist to your /config/autoload folder and rename to email.global.php');
-        }
+        $eventManager->attach('route', function($e) use($config, $app) {
+            if (!isset($config['zf-hipsters']['authorize'])) {
+                $this->redirect($e, 'authorize_install');
+            }
 
-        if ($config['zf-hipsters']['authorize']['permissions']['redirectOn403'] == true
-            && $config['zf-hipsters']['authorize']['permissions']['enableAcl'] == true) {
-            // attach dispatch listener
-            $eventManager->attach('route', function($e) {
-                /** @var \Zend\Mvc\Application $app */
+            if (isset($config['zf-hipsters']['authorize'])
+                && $config['zf-hipsters']['authorize']['permissions']['redirectOn403'] == true
+                && $config['zf-hipsters']['authorize']['permissions']['enableAcl'] == true
+                && $app->getMvcEvent()->getRouteMatch()->getMatchedRouteName() != 'authorize_install')
+            {
+                // attach dispatch listener
+
                 $app = $e->getApplication();
                 $sm = $app->getServiceManager();
                 $rbac = $sm->get('ZfcRbac\Service\Rbac');
@@ -40,18 +43,31 @@ class Module
                     return true;
                 }
 
-                $matchedRoute = $sm->get('Router')->assemble(array(), array('name'=>'authorize/login'));
+                $this->redirect($e, 'authorize/login');
+            }
+        });
+    }
 
-                $response = $e->getResponse();
-                $response->getHeaders()->addHeaderLine('Location', $matchedRoute);
-                $response->setStatusCode(302);
-                $response->sendHeaders();
+    protected function redirect(EventInterface $e, $route)
+    {
+        $app = $e->getApplication();
+        $sm = $app->getServiceManager();
 
-                $e->stopPropagation();
-                return false;
-
-            });
+        /** @var \Zend\Mvc\Router\Http\TreeRouteStack $route */
+        $currentRoute = $app->getMvcEvent()->getRouteMatch()->getMatchedRouteName();
+        if ($currentRoute == $route) {
+            return false;
         }
+
+        $matchedRoute = $sm->get('Router')->assemble(array(), array('name'=>$route));
+
+        $response = $e->getResponse();
+        $response->getHeaders()->addHeaderLine('Location', $matchedRoute);
+        $response->setStatusCode(302);
+        $response->sendHeaders();
+
+        $e->stopPropagation();
+        return false;
     }
 
     public function getConfig()

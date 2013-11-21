@@ -1,25 +1,6 @@
 <?php
 
 return array(
-    'zf-hipsters' => array(
-        'authorize' => array(
-            'user_table' => 'users',
-            'permissions' => array(
-                'allowRegister' => true,
-                'requireActivation' => true,
-                'allowProfileUpdate' => true,
-                'allowForgotPassword' => true,
-                'allowRememberMe' => true,
-                'enableAcl' => true,
-                'redirectOn403' => true,
-            ),
-            'redirects' => array(
-                'login_success' => 'home',
-                'logout' => 'authorize/login'
-            ),
-            'salt' => 'scDsejlSMYqqpXltYIvKtVHFMhASJutxecLmpolI',
-        ),
-    ),
     'router' => array(
         'routes' => array(
             'authorize' => array(
