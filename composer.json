@@ -18,8 +18,8 @@
         "zendframework/zendframework": ">2.2.0rc1",
         "zf-hipsters/abstract-factory": ">=0.9",
         "zf-hipsters/bootstrap-flash-messenger": ">=1.0.2",
-        "zf-commons/zfc-base": "dev-master",
-        "zf-commons/zfc-rbac": "dev-master"
+        "zf-commons/zfc-base": ">=v0.1.2",
+        "zf-commons/zfc-rbac": ">=0.2.2"
     },
     "autoload": {
         "psr-0": {
