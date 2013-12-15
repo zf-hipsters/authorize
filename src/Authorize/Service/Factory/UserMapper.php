@@ -23,6 +23,5 @@ class UserMapper implements FactoryInterface
         $mapper->setEntity(new Entity);
         $mapper->setTableGateway($serviceLocator->get('Authorize\Service\Factory\TableGateway'));
         return $mapper;
-
     }
 }

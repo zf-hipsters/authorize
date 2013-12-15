@@ -27,13 +27,11 @@ class CurrentUser extends AbstractHelper implements ServiceLocatorAwareInterface
 
     public function __invoke()
     {
-        if ($this->getAuthService()->userIdentity()) {
-            $user = $this->getAuthService()->userIdentity();
-        } else {
+        if (! $this->getAuthService()->userIdentity()) {
             return false;
         }
 
-        return $user;
+        return $this->getAuthService()->userIdentity();
     }
 
     /**
@@ -52,11 +50,12 @@ class CurrentUser extends AbstractHelper implements ServiceLocatorAwareInterface
      * Set serviceManager instance
      *
      * @param  ServiceLocatorInterface $serviceLocator
-     * @return void
+     * @return \Authorize\View\Helper\CurrentUser
      */
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
     {
         $this->serviceLocator = $serviceLocator;
+        return $this;
     }
 
     /**
@@ -66,8 +65,6 @@ class CurrentUser extends AbstractHelper implements ServiceLocatorAwareInterface
      */
     public function getServiceLocator()
     {
-        $sm = $this->serviceLocator->getServiceLocator();
-        return $sm;
-
+        return $this->serviceLocator->getServiceLocator();
     }
 }

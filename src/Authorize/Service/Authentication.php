@@ -46,7 +46,7 @@ class Authentication extends ServiceLocatorAware
     }
 
     /**
-     *
+     * Logout
      */
     public function logout()
     {

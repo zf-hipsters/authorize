@@ -21,7 +21,8 @@ class User {
     protected $modified;
 
     /**
-     * @param mixed $id
+     * @param Integer $id
+     * @return \Authorize\Entity\User
      */
     public function setId($id)
     {
@@ -30,7 +31,7 @@ class User {
     }
 
     /**
-     * @return mixed
+     * @return Integer
      */
     public function getId()
     {
@@ -38,7 +39,8 @@ class User {
     }
 
     /**
-     * @param mixed $firstName
+     * @param string $firstName
+     * @return \Authorize\Entity\User
      */
     public function setFirstName($firstName)
     {
@@ -47,7 +49,7 @@ class User {
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getFirstName()
     {
@@ -55,7 +57,8 @@ class User {
     }
 
     /**
-     * @param mixed $lastName
+     * @param string $lastName
+     * @return \Authorize\Entity\User
      */
     public function setLastName($lastName)
     {
@@ -64,7 +67,7 @@ class User {
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getLastName()
     {
@@ -72,7 +75,8 @@ class User {
     }
 
     /**
-     * @param mixed $email
+     * @param string $email
+     * @return \Authorize\Entity\User
      */
     public function setEmail($email)
     {
@@ -81,7 +85,7 @@ class User {
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getEmail()
     {
@@ -90,6 +94,7 @@ class User {
 
     /**
      * @param mixed $role
+     * @return \Authorize\Entity\User
      */
     public function setRole($role)
     {
@@ -107,6 +112,7 @@ class User {
 
     /**
      * @param mixed $password
+     * @return \Authorize\Entity\User
      */
     public function setPassword($password)
     {
@@ -124,6 +130,7 @@ class User {
 
     /**
      * @param int $active
+     * @return \Authorize\Entity\User
      */
     public function setActive($active)
     {
@@ -141,6 +148,7 @@ class User {
 
     /**
      * @param mixed $resetToken
+     * @return \Authorize\Entity\User
      */
     public function setResetToken($resetToken)
     {
@@ -158,6 +166,7 @@ class User {
 
     /**
      * @param mixed $created
+     * @return \Authorize\Entity\User
      */
     public function setCreated($created)
     {
@@ -175,6 +184,7 @@ class User {
 
     /**
      * @param mixed $modified
+     * @return \Authorize\Entity\User
      */
     public function setModified($modified)
     {
@@ -189,6 +199,4 @@ class User {
     {
         return $this->modified;
     }
-
-
 }

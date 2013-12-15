@@ -55,7 +55,6 @@ class Account extends ServiceLocatorAware
         $password = $authService->generatePassword($postVars['confirm']);
 
         $this->getMapper()->setPassword($password, $user->getId());
-
         $this->getMapper()->setToken('', $user->getId());
 
         return true;
@@ -65,12 +64,12 @@ class Account extends ServiceLocatorAware
     {
         $config = $this->getServiceLocator()->get('Config');
         $authConfig = $this->getServiceLocator()->get('Authorize\Service\Factory\Config');
-        if (!isset($postVars['email']) || $postVars['password'] == '') {
+        if (! isset($postVars['email']) || $postVars['password'] == '') {
             throw new \Exception('Email and password were not passed to the service.');
         }
 
         $user = $this->getMapper()->findByEmail($postVars['email']);
-        if (!empty($user)) {
+        if (! empty($user)) {
             return false;
         }
 
@@ -120,15 +119,13 @@ class Account extends ServiceLocatorAware
         }
 
         $this->getMapper()->activate($user->getId());
-
         return true;
-
     }
 
     public function forgotPassword($postVars)
     {
         $config = $this->getServiceLocator()->get('Config');
-        if (!isset($postVars['identity']) || $postVars['identity'] == '') {
+        if (! isset($postVars['identity']) || $postVars['identity'] == '') {
             return false;
         }
 
@@ -159,7 +156,7 @@ class Account extends ServiceLocatorAware
 
     public function checkToken($token)
     {
-        if (!$user = $this->getMapper()->findByToken($token)) {
+        if (! $user = $this->getMapper()->findByToken($token)) {
             return false;
         }
 
@@ -186,5 +183,4 @@ class Account extends ServiceLocatorAware
 
         return $this->mapper;
     }
-
 }

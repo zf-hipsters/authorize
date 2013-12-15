@@ -166,6 +166,4 @@ class Adapter extends ServiceLocatorAware implements AdapterInterface
 
         return $this->storage;
     }
-
-
 }

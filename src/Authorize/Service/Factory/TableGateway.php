@@ -30,7 +30,5 @@ class TableGateway implements FactoryInterface
         $resultSet = new \Zend\Db\ResultSet\HydratingResultSet($hydrator, $rowObjectPrototype);
 
         return $tableGateway = new ZendTableGateway($moduleConfig['user_table'], $dbAdapter, null, $resultSet);
-
     }
-
 }

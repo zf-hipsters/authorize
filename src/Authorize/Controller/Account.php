@@ -45,8 +45,7 @@ class Account extends ControllerAbstract
         $email = urldecode($this->params()->fromRoute('email'));
         $token = $this->params()->fromRoute('token');
 
-        if (empty($email) || empty($token))
-        {
+        if (empty($email) || empty($token)) {
             $this->fm( $this->translate('The activation link you specified is invalid. Please click the email link again.'), 'error' );
             return $this->redirect()->toRoute('authorize/login');
         }
@@ -97,7 +96,7 @@ class Account extends ControllerAbstract
         $accountService = $this->getServiceLocator()->get('Authorize\Service\Account');
         $token = $this->params()->fromRoute('token');
 
-        if (!$token || !$user = $accountService->checkToken($token)) {
+        if (! $token || ! $user = $accountService->checkToken($token)) {
             $this->fm( $this->translate('The security token is invalid or has expired. Please try again.') );
             return $this->redirect()->toRoute('authorize/forgot-password');
         }
@@ -120,7 +119,6 @@ class Account extends ControllerAbstract
             'form' => $form,
             'token' => $token,
         ));
-
     }
 
     public function profileAction()
