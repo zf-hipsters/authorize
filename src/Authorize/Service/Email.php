@@ -88,7 +88,7 @@ class Email extends ServiceLocatorAware
     protected function getRenderer()
     {
         if (is_null($this->renderer)) {
-            $renderer = new PhpRenderer();
+            $renderer = $this->getServiceLocator()->get('Zend\View\Renderer\RendererInterface');
             $resolver = new AggregateResolver();
             $stack = new TemplatePathStack();
 

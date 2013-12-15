@@ -89,7 +89,7 @@ class Account extends ServiceLocatorAware
                 ->body('activation', array(
                     'email' => $userObject->getEmail(),
                     'first_name' => $userObject->getFirstname(),
-                    'token' => $activation_token
+                    'token' => $activation_token,
                 ));
 
             $transport->send();
@@ -119,7 +119,7 @@ class Account extends ServiceLocatorAware
             return false;
         }
 
-        $this->getMapper()->activate($user);
+        $this->getMapper()->activate($user->getId());
 
         return true;
 
