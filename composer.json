@@ -30,9 +30,3 @@
         ]
     }
 }
-'ZfcRbac',
-'ZfhAbstractFactory',
-'AssetManager',
-'FlashMessenger',
-'Authorize',
-'Application',
