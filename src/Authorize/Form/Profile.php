@@ -16,8 +16,6 @@ class Profile extends ProvidesEventsForm
     public function __construct($name = null)
     {
         $this->setInputFilter(new InputFilter());
-
-
         parent::__construct($name);
 
         $this->add(array(
@@ -43,7 +41,6 @@ class Profile extends ProvidesEventsForm
                 'required' => 'required',
             ),
         ));
-
 
         $this->add(array(
             'name' => 'email',
@@ -96,6 +93,5 @@ class Profile extends ProvidesEventsForm
         ));
 
         $this->getEventManager()->trigger('init', $this);
-
     }
 }

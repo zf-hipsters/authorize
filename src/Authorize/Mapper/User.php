@@ -71,7 +71,7 @@ class User
             $select->where->like('reset_token', $token . '|%');
         });
 
-        if (!empty($results)) {
+        if (! empty($results)) {
             return $results->current();
         }
 
@@ -141,7 +141,4 @@ class User
     {
         return $this->hydrator;
     }
-
-
-
 }

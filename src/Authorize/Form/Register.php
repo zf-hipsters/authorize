@@ -16,8 +16,6 @@ class Register extends ProvidesEventsForm
     public function __construct($name = null)
     {
         $this->setInputFilter(new InputFilter());
-
-
         parent::__construct($name);
 
         $this->add(array(
@@ -43,7 +41,6 @@ class Register extends ProvidesEventsForm
                 'required' => 'required',
             ),
         ));
-
 
         $this->add(array(
             'name' => 'email',
@@ -79,7 +76,6 @@ class Register extends ProvidesEventsForm
             ),
         ));
 
-
         $this->add(array(
             'name' => 'btnSubmit',
             'attributes' => array(
@@ -89,6 +85,5 @@ class Register extends ProvidesEventsForm
         ));
 
         $this->getEventManager()->trigger('init', $this);
-
     }
 }

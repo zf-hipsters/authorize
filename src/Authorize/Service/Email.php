@@ -68,7 +68,6 @@ class Email extends ServiceLocatorAware
         $viewModel->setTemplate('authorize/emails/' . $template);
 
         $this->body = $this->getRenderer()->render($viewModel);
-
         return $this;
     }
 
@@ -87,42 +86,42 @@ class Email extends ServiceLocatorAware
      */
     protected function getRenderer()
     {
-        if (is_null($this->renderer)) {
-            $renderer = new PhpRenderer();
-            $resolver = new AggregateResolver();
-            $stack = new TemplatePathStack();
-
-            $config = $this->getServiceLocator()->get('Config');
-
-            foreach($config['view_manager']["template_path_stack"] as $path) {
-                $stack->addPath($path);
-            }
-
-            $resolver->attach($stack);
-            $renderer->setResolver($resolver);
-
-            $this->renderer = $renderer;
+        if (! is_null($this->renderer)) {
+            return $this->renderer;
         }
 
-        return $this->renderer;
+        $renderer = $this->getServiceLocator()->get('Zend\View\Renderer\RendererInterface');
+        $resolver = new AggregateResolver();
+        $stack = new TemplatePathStack();
+
+        $config = $this->getServiceLocator()->get('Config');
+
+        foreach($config['view_manager']["template_path_stack"] as $path) {
+            $stack->addPath($path);
+        }
+
+        $resolver->attach($stack);
+        $renderer->setResolver($resolver);
+
+        return $this->renderer = $renderer;
     }
 
     protected function getTransport()
     {
-        if (is_null($this->transport)) {
-            $config = $this->getServiceLocator()->get('Config');
-
-            // Select default transport based on config options
-            if (strtolower($config['mail']['transport']['default']) == 'smtp') {
-                $transport = new \Zend\Mail\Transport\Smtp();
-                $transport->setOptions(new \Zend\Mail\Transport\SmtpOptions($config['mail']['transport']['options']));
-            } else {  // Default option
-                $transport = new \Zend\Mail\Transport\Sendmail();
-            }
-
-            $this->transport = $transport;
+        if (! is_null($this->transport)) {
+            return $this->transport;
         }
 
-        return $this->transport;
+        $config = $this->getServiceLocator()->get('Config');
+
+        // Select default transport based on config options
+        if (strtolower($config['mail']['transport']['default']) == 'smtp') {
+            $transport = new \Zend\Mail\Transport\Smtp();
+            $transport->setOptions(new \Zend\Mail\Transport\SmtpOptions($config['mail']['transport']['options']));
+        } else {  // Default option
+            $transport = new \Zend\Mail\Transport\Sendmail();
+        }
+
+        return $this->transport = $transport;
     }
 }

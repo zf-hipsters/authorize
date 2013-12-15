@@ -14,14 +14,20 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 class ServiceLocatorAware implements ServiceLocatorAwareInterface
 {
     /**
+     * @var $serviceLocator ServiceLocatorInterface
+     */
+    protected $serviceLocator;
+
+    /**
      * Set serviceManager instance
      *
      * @param  ServiceLocatorInterface $serviceLocator
-     * @return void
+     * @return \Authorize\Service\ServiceLocatorAware
      */
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
     {
         $this->serviceLocator = $serviceLocator;
+        return $this;
     }
 
     /**

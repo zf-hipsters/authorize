@@ -16,7 +16,6 @@ class ForgotPassword extends ProvidesEventsForm
     public function __construct($name = null)
     {
         parent::__construct($name);
-
         $this->setInputFilter(new InputFilter());
 
         $this->add(array(
@@ -39,6 +38,5 @@ class ForgotPassword extends ProvidesEventsForm
         ));
 
         $this->getEventManager()->trigger('init', $this);
-
     }
 }
